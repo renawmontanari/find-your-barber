@@ -1,3 +1,3 @@
-export function BarbershopItem() {
-  return <h1>BarberShop</h1>
+export function BarbershopItem({ barbershop }) {
+  return <h1>{barbershop.name}</h1>
 }
