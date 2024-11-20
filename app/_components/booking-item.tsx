@@ -21,7 +21,7 @@ export function BookingItem() {
               <Avatar className="h-6 w-6">
                 <AvatarImage src="https://thumbs.dreamstime.com/b/imagem-redonda-do-avatar-dos-desenhos-animados-ilustra-o-da-arte-vetor-143071694.jpg" />
               </Avatar>
-              <p className="text-sm">Barbearia FSW</p>
+              <p className="pl-1 text-sm">Barbearia FSW</p>
             </div>
           </div>
           {/* Direita */}
