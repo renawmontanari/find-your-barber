@@ -12,7 +12,7 @@ import { Form, FormControl, FormField, FormItem, FormMessage } from "./ui/form"
 
 const formSchema = z.object({
   search: z.string().trim().min(1, {
-    message: "O campo 'Pesquisar' é obrigatório",
+    message: "O campo 'Pesquisar' é obrigatório!",
   }),
   // Exemplo de outros inputs
   // name: z.string().trim().min(1).max(255)
