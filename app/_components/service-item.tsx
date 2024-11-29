@@ -49,9 +49,16 @@ const TIME_LIST = [
 
 export default function ServiceItem({ service }: ServiceItemProps) {
   const [selectedDay, setSelectedDay] = useState<Date | undefined>(undefined)
+  const [selectedTime, setSelectedTime] = useState<string | undefined>(
+    undefined,
+  )
 
   const handleDateSelect = (date: Date | undefined) => {
     setSelectedDay(date)
+  }
+
+  const handleTimeSelect = (time: string) => {
+    setSelectedTime(time)
   }
 
   return (
@@ -124,8 +131,9 @@ export default function ServiceItem({ service }: ServiceItemProps) {
                     {TIME_LIST.map((time) => (
                       <Button
                         key={time}
-                        variant="outline"
+                        variant={selectedTime === time ? "default" : "outline"}
                         className="rounded-full"
+                        onClick={() => handleTimeSelect(time)}
                       >
                         {time}
                       </Button>
