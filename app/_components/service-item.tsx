@@ -14,6 +14,7 @@ import {
 import { Calendar } from "./ui/calendar"
 import { ptBR } from "date-fns/locale"
 import { useState } from "react"
+import { format } from "date-fns"
 
 interface ServiceItemProps {
   service: BarbershopService
@@ -89,7 +90,7 @@ export default function ServiceItem({ service }: ServiceItemProps) {
                   Reservar
                 </Button>
               </SheetTrigger>
-              <SheetContent className="px-0">
+              <SheetContent className="overflow-x-auto px-0 [&::-webkit-scrollbar]:hidden">
                 <SheetHeader>
                   <SheetTitle>Fazer reserva</SheetTitle>
                 </SheetHeader>
@@ -127,7 +128,7 @@ export default function ServiceItem({ service }: ServiceItemProps) {
                 </div>
 
                 {selectedDay && (
-                  <div className="flex gap-3 overflow-x-auto p-5 [&::-webkit-scrollbar]:hidden">
+                  <div className="flex gap-3 overflow-x-auto border-b border-solid p-5 [&::-webkit-scrollbar]:hidden">
                     {TIME_LIST.map((time) => (
                       <Button
                         key={time}
@@ -138,6 +139,33 @@ export default function ServiceItem({ service }: ServiceItemProps) {
                         {time}
                       </Button>
                     ))}
+                  </div>
+                )}
+
+                {selectedTime && selectedDay && (
+                  <div className="p-5">
+                    <Card>
+                      <CardContent className="p-3">
+                        <div className="flex items-center justify-between">
+                          <h2 className="font-bold">{service.name}</h2>
+                          <p className="text-sm font-bold">
+                            {Intl.NumberFormat("pt-BR", {
+                              style: "currency",
+                              currency: "BRL",
+                            }).format(Number(service.price))}
+                          </p>
+                        </div>
+
+                        <div className="flex items-center justify-between">
+                          <h2>Data</h2>
+                          <p className="text-sm font-bold">
+                            {format(selectedDay, "d 'de' MMMM", {
+                              locale: ptBR,
+                            })}
+                          </p>
+                        </div>
+                      </CardContent>
+                    </Card>
                   </div>
                 )}
               </SheetContent>
