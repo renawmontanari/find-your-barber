@@ -17,6 +17,8 @@ import { Calendar } from "./ui/calendar"
 import { ptBR } from "date-fns/locale"
 import { useState } from "react"
 import { format } from "date-fns"
+//import createBooking from "../_actions/create-booking"
+//import { useSession } from "next-auth/react"
 
 interface ServiceItemProps {
   service: BarbershopService
@@ -52,6 +54,7 @@ const TIME_LIST = [
 ]
 
 export default function ServiceItem({ service, barbershop }: ServiceItemProps) {
+  //const { data } = useSession()
   const [selectedDay, setSelectedDay] = useState<Date | undefined>(undefined)
   const [selectedTime, setSelectedTime] = useState<string | undefined>(
     undefined,
@@ -64,6 +67,21 @@ export default function ServiceItem({ service, barbershop }: ServiceItemProps) {
   const handleTimeSelect = (time: string) => {
     setSelectedTime(time)
   }
+
+  // const handleCreateBooking = async () => {
+  //   if (!selectedDay || !selectedTime) return
+  //   const hour = Number(selectedTime.split(":")[0])
+  //   const minute = Number(selectedTime.split(":")[1])
+  //   const newDate = set(selectedDay, {
+  //     hours: hour,
+  //     minutes: minute,
+  //   })
+  //   await createBooking({
+  //     serviceId: service.id,
+  //     userId: data?.user,
+  //     date,
+  //   })
+  // }
 
   return (
     <Card>
