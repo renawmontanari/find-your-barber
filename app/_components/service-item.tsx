@@ -79,7 +79,7 @@ export default function ServiceItem({ service, barbershop }: ServiceItemProps) {
   //   await createBooking({
   //     serviceId: service.id,
   //     userId: data?.user,
-  //     date,
+  //     date: newDate,
   //   })
   // }
 
