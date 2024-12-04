@@ -16,9 +16,10 @@ import {
 import { Calendar } from "./ui/calendar"
 import { ptBR } from "date-fns/locale"
 import { useState } from "react"
-import { format } from "date-fns"
-//import createBooking from "../_actions/create-booking"
-//import { useSession } from "next-auth/react"
+import { format, set } from "date-fns"
+import createBooking from "../_actions/create-booking"
+import { useSession } from "next-auth/react"
+import { toast } from "sonner"
 
 interface ServiceItemProps {
   service: BarbershopService
@@ -54,7 +55,7 @@ const TIME_LIST = [
 ]
 
 export default function ServiceItem({ service, barbershop }: ServiceItemProps) {
-  //const { data } = useSession()
+  const { data } = useSession()
   const [selectedDay, setSelectedDay] = useState<Date | undefined>(undefined)
   const [selectedTime, setSelectedTime] = useState<string | undefined>(
     undefined,
@@ -68,20 +69,28 @@ export default function ServiceItem({ service, barbershop }: ServiceItemProps) {
     setSelectedTime(time)
   }
 
-  // const handleCreateBooking = async () => {
-  //   if (!selectedDay || !selectedTime) return
-  //   const hour = Number(selectedTime.split(":")[0])
-  //   const minute = Number(selectedTime.split(":")[1])
-  //   const newDate = set(selectedDay, {
-  //     hours: hour,
-  //     minutes: minute,
-  //   })
-  //   await createBooking({
-  //     serviceId: service.id,
-  //     userId: data?.user,
-  //     date: newDate,
-  //   })
-  // }
+  const handleCreateBooking = async () => {
+    // 1. Não exibir horários que já foram agendados
+    // 2. Salvar o agendamento para o usuário logado
+    try {
+      if (!selectedDay || !selectedTime) return
+      const hour = Number(selectedTime.split(":")[0])
+      const minute = Number(selectedTime.split(":")[1])
+      const newDate = set(selectedDay, {
+        hours: hour,
+        minutes: minute,
+      })
+      await createBooking({
+        serviceId: service.id,
+        userId: (data?.user as any).id,
+        date: newDate,
+      })
+      toast.success("Reserva criada com sucesso!")
+    } catch (error) {
+      console.log(error)
+      toast.error("Erro ao criar reserva")
+    }
+  }
 
   return (
     <Card>
@@ -201,7 +210,7 @@ export default function ServiceItem({ service, barbershop }: ServiceItemProps) {
                 )}
                 <SheetFooter className="px-5">
                   <SheetClose asChild>
-                    <Button type="submit">Confirmar</Button>
+                    <Button onClick={handleCreateBooking}>Confirmar</Button>
                   </SheetClose>
                 </SheetFooter>
               </SheetContent>
