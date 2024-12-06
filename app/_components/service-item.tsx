@@ -15,7 +15,7 @@ import {
 import { Calendar } from "./ui/calendar"
 import { ptBR } from "date-fns/locale"
 import { useEffect, useState } from "react"
-import { format, set } from "date-fns"
+import { addDays, format, set } from "date-fns"
 import createBooking from "../_actions/create-booking"
 import { useSession } from "next-auth/react"
 import { toast } from "sonner"
@@ -124,6 +124,7 @@ export default function ServiceItem({ service, barbershop }: ServiceItemProps) {
         userId: (data?.user as any).id,
         date: newDate,
       })
+      setBookingSheetIsOpen(false)
       toast.success("Reserva criada com sucesso!")
     } catch (error) {
       console.log(error)
@@ -176,6 +177,7 @@ export default function ServiceItem({ service, barbershop }: ServiceItemProps) {
                     locale={ptBR}
                     selected={selectedDay}
                     onSelect={handleDateSelect}
+                    fromDate={addDays(new Date(), 0)}
                     styles={{
                       head_cell: {
                         width: "100%",
