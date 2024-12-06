@@ -11,7 +11,6 @@ import {
   SheetFooter,
   SheetHeader,
   SheetTitle,
-  SheetTrigger,
 } from "./ui/sheet"
 import { Calendar } from "./ui/calendar"
 import { ptBR } from "date-fns/locale"
@@ -79,8 +78,8 @@ export default function ServiceItem({ service, barbershop }: ServiceItemProps) {
   const [selectedTime, setSelectedTime] = useState<string | undefined>(
     undefined,
   )
-
   const [dayBookings, setDayBookings] = useState<Booking[]>()
+  const [bookingSheetIsOpen, setBookingSheetIsOpen] = useState(false)
 
   useEffect(() => {
     const fetch = async () => {
@@ -93,6 +92,13 @@ export default function ServiceItem({ service, barbershop }: ServiceItemProps) {
     }
     fetch()
   }, [selectedDay, service.id])
+
+  const handleBookingSheetOpenChange = () => {
+    setSelectedDay(undefined)
+    setSelectedTime(undefined)
+    setDayBookings([])
+    setBookingSheetIsOpen(false)
+  }
 
   const handleDateSelect = (date: Date | undefined) => {
     setSelectedDay(date)
@@ -147,12 +153,18 @@ export default function ServiceItem({ service, barbershop }: ServiceItemProps) {
               }).format(Number(service.price))}
             </p>
 
-            <Sheet>
-              <SheetTrigger asChild>
-                <Button variant="secondary" size="sm">
-                  Reservar
-                </Button>
-              </SheetTrigger>
+            <Sheet
+              open={bookingSheetIsOpen}
+              onOpenChange={handleBookingSheetOpenChange}
+            >
+              <Button
+                variant="secondary"
+                size="sm"
+                onClick={() => setBookingSheetIsOpen(true)}
+              >
+                Reservar
+              </Button>
+
               <SheetContent className="overflow-x-auto px-0 [&::-webkit-scrollbar]:hidden">
                 <SheetHeader>
                   <SheetTitle>Fazer reserva</SheetTitle>
