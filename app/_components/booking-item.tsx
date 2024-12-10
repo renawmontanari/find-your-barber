@@ -1,9 +1,20 @@
+import { Prisma } from "@prisma/client"
 import { Avatar, AvatarImage } from "../_components/ui/avatar"
 import { Badge } from "../_components/ui/badge"
 import { Card, CardContent } from "./ui/card"
 
+interface BookingItemProps {
+  booking: Prisma.BookingGetPayload<{ include: { service: true } }>
+}
+
 // Todo: receber agendamento como prop
-export function BookingItem() {
+export function BookingItem({ booking }: BookingItemProps) {
+  if (!booking) {
+    return <p>Carregando agendamento...</p>
+  }
+  if (!booking.service) {
+    return <p>Serviço não encontrado.</p>
+  }
   return (
     <>
       <h2 className="mb-3 mt-6 text-xs font-bold uppercase text-gray-400">
@@ -15,7 +26,9 @@ export function BookingItem() {
           {/* Esquerda */}
           <div className="flex flex-col gap-2 py-5 pl-5">
             <Badge className="w-fit">Confirmado</Badge>
-            <h3 className="font-semibold">Corte de cabelo</h3>
+            <h3 className="font-semibold">
+              {booking.service.name || "Serviço não especificado"}
+            </h3>
 
             <div className="flex items-center">
               <Avatar className="h-6 w-6">

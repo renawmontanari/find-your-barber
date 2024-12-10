@@ -11,6 +11,11 @@ export default function authOptions(): NextAuthOptions {
       GoogleProvider({
         clientId: process.env.GOOGLE_CLIENT_ID as string,
         clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+        authorization: {
+          params: {
+            scope: "openid email profile", // Inclui permissões para acessar imagem, nome e email
+          },
+        },
       }),
     ],
     callbacks: {
@@ -18,6 +23,7 @@ export default function authOptions(): NextAuthOptions {
         session.user = {
           ...session.user,
           id: user.id,
+          image: user.image ?? "", // Adiciona a imagem à sessão
         } as any
         return session
       },

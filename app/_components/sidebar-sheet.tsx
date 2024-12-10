@@ -14,7 +14,7 @@ import { DialogContent } from "@radix-ui/react-dialog"
 
 export default function SidebarSheet() {
   const { data } = useSession()
-  const handleLogoutClick = () => signOut()
+  const handleLogoutClick = () => signOut({ callbackUrl: "/" })
 
   return (
     <SheetContent className="overflow-y-auto">
@@ -64,10 +64,14 @@ export default function SidebarSheet() {
             </Link>
           </Button>
         </SheetClose>
-        <Button className="justify-start gap-2" variant="ghost">
-          <CalendarIcon size={18} />
-          Agendamentos
-        </Button>
+        {data?.user && (
+          <Button className="justify-start gap-2" variant="ghost" asChild>
+            <Link href="/bookings">
+              <CalendarIcon size={18} />
+              Agendamentos
+            </Link>
+          </Button>
+        )}
       </div>
 
       <div className="flex flex-col gap-1 border-b border-solid p-5">
