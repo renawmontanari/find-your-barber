@@ -289,7 +289,7 @@ export default function ServiceItem({ service, barbershop }: ServiceItemProps) {
         open={signInDialogIsOpen}
         onOpenChange={(open) => setSignInDialogIsOpen(open)}
       >
-        <DialogContent>
+        <DialogContent className="w-[90%]">
           <SignInDialog />
         </DialogContent>
       </Dialog>
