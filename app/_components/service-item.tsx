@@ -119,8 +119,6 @@ export default function ServiceItem({ service, barbershop }: ServiceItemProps) {
   }
 
   const handleCreateBooking = async () => {
-    // 1. Não exibir horários que já foram agendados
-    // 2. Não exibir botão de reservar se o usuario não estiver logado
     try {
       if (!selectedDay || !selectedTime) return
       const hour = Number(selectedTime.split(":")[0])
@@ -131,7 +129,6 @@ export default function ServiceItem({ service, barbershop }: ServiceItemProps) {
       })
       await createBooking({
         serviceId: service.id,
-        userId: (data?.user as any).id,
         date: newDate,
       })
       setBookingSheetIsOpen(false)
