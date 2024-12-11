@@ -4,7 +4,15 @@ import { Badge } from "../_components/ui/badge"
 import { Card, CardContent } from "./ui/card"
 
 interface BookingItemProps {
-  booking: Prisma.BookingGetPayload<{ include: { service: true } }>
+  booking: Prisma.BookingGetPayload<{
+    include: {
+      service: {
+        include: {
+          barbershop: true
+        }
+      }
+    }
+  }>
 }
 
 // Todo: receber agendamento como prop
@@ -17,11 +25,7 @@ export function BookingItem({ booking }: BookingItemProps) {
   }
   return (
     <>
-      <h2 className="mb-3 mt-6 text-xs font-bold uppercase text-gray-400">
-        Agendamentos
-      </h2>
-
-      <Card>
+      <Card className="min-w-[90%]">
         <CardContent className="flex justify-between p-0">
           {/* Esquerda */}
           <div className="flex flex-col gap-2 py-5 pl-5">
@@ -32,9 +36,9 @@ export function BookingItem({ booking }: BookingItemProps) {
 
             <div className="flex items-center">
               <Avatar className="h-6 w-6">
-                <AvatarImage src="https://thumbs.dreamstime.com/b/imagem-redonda-do-avatar-dos-desenhos-animados-ilustra-o-da-arte-vetor-143071694.jpg" />
+                <AvatarImage src={booking.service.barbershop.imageUrl} />
               </Avatar>
-              <p className="pl-1 text-sm">Barbearia FSW</p>
+              <p className="pl-1 text-sm">{booking.service.barbershop.name}</p>
             </div>
           </div>
           {/* Direita */}

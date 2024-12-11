@@ -16,13 +16,17 @@ export default async function Bookings() {
       userId: (session.user as any).id,
     },
     include: {
-      service: true,
+      service: {
+        include: {
+          barbershop: true,
+        },
+      },
     },
   })
   return (
     <>
       <Header />
-      <div className="p-5">
+      <div className="space-y-3 p-5">
         <h1 className="text-xl font-bold">Agendamentos</h1>
         {bookings.map((booking) => (
           <BookingItem key={booking.id} booking={booking} />
