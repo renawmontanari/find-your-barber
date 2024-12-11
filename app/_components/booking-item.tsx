@@ -2,6 +2,8 @@ import { Prisma } from "@prisma/client"
 import { Avatar, AvatarImage } from "../_components/ui/avatar"
 import { Badge } from "../_components/ui/badge"
 import { Card, CardContent } from "./ui/card"
+import { format, isFuture } from "date-fns"
+import { ptBR } from "date-fns/locale"
 
 interface BookingItemProps {
   booking: Prisma.BookingGetPayload<{
@@ -17,19 +19,16 @@ interface BookingItemProps {
 
 // Todo: receber agendamento como prop
 export function BookingItem({ booking }: BookingItemProps) {
-  if (!booking) {
-    return <p>Carregando agendamento...</p>
-  }
-  if (!booking.service) {
-    return <p>Serviço não encontrado.</p>
-  }
+  const isConfirmed = isFuture(booking.date)
   return (
     <>
       <Card className="min-w-[90%]">
         <CardContent className="flex justify-between p-0">
           {/* Esquerda */}
           <div className="flex flex-col gap-2 py-5 pl-5">
-            <Badge className="w-fit">Confirmado</Badge>
+            <Badge className="w-fit">
+              {isConfirmed ? "Confirmado" : "Finalizado"}
+            </Badge>
             <h3 className="font-semibold">
               {booking.service.name || "Serviço não especificado"}
             </h3>
@@ -43,9 +42,15 @@ export function BookingItem({ booking }: BookingItemProps) {
           </div>
           {/* Direita */}
           <div className="flex flex-col items-center justify-center border-l-2 border-solid px-5">
-            <p className="text-sm">Novembro</p>
-            <p className="text-2xl">08</p>
-            <p className="text-sm">13:30</p>
+            <p className="text-sm capitalize">
+              {format(booking.date, "MMMM", { locale: ptBR })}
+            </p>
+            <p className="text-2xl">
+              {format(booking.date, "dd", { locale: ptBR })}
+            </p>
+            <p className="text-sm">
+              {format(booking.date, "HH:mm", { locale: ptBR })}
+            </p>
           </div>
         </CardContent>
       </Card>
