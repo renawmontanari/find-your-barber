@@ -18,10 +18,13 @@ export default async function Home() {
       name: "desc",
     },
   })
-  const bookings = session?.user
+  const confirmedBookings = session?.user
     ? await db.booking.findMany({
         where: {
           userId: (session.user as any).id,
+          date: {
+            gte: new Date(),
+          },
         },
         include: {
           service: {
@@ -29,6 +32,9 @@ export default async function Home() {
               barbershop: true,
             },
           },
+        },
+        orderBy: {
+          date: "asc",
         },
       })
     : []
@@ -87,7 +93,7 @@ export default async function Home() {
 
         {/* Agendamento */}
         <div className="flex gap-3 overflow-x-auto [&::-webkit-scrollbar]:hidden">
-          {bookings.map((booking) => (
+          {confirmedBookings.map((booking) => (
             <BookingItem key={booking.id} booking={booking} />
           ))}
         </div>
