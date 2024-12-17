@@ -12,6 +12,7 @@ import {
   SheetTrigger,
 } from "./ui/sheet"
 import Image from "next/image"
+import { PhoneItem } from "./phone-item"
 
 interface BookingItemProps {
   booking: Prisma.BookingGetPayload<{
@@ -72,7 +73,7 @@ export function BookingItem({ booking }: BookingItemProps) {
           </CardContent>
         </Card>
       </SheetTrigger>
-      <SheetContent className="w-[90%]">
+      <SheetContent className="w-[90%] overflow-x-auto [&::-webkit-scrollbar]:hidden">
         <SheetHeader>
           <SheetTitle className="text-left">Informações da Reserva</SheetTitle>
         </SheetHeader>
@@ -81,11 +82,11 @@ export function BookingItem({ booking }: BookingItemProps) {
           <Image
             src="/assets/map.png"
             fill
-            className="object-cover"
+            className="rounded-xl object-cover"
             alt={`Mapa da barbearia ${barbershop.name}`}
           />
 
-          <Card className="z-50 mx-5 mb-3 w-full">
+          <Card className="z-50 mx-5 mb-3 w-full rounded-xl">
             <CardContent className="flex items-center gap-3 px-5 py-3">
               <Avatar>
                 <AvatarImage src={barbershop.imageUrl} />
@@ -96,6 +97,54 @@ export function BookingItem({ booking }: BookingItemProps) {
               </div>
             </CardContent>
           </Card>
+        </div>
+
+        <div className="mt-6">
+          <Badge
+            className="w-fit"
+            variant={isConfirmed ? "default" : "secondary"}
+          >
+            {isConfirmed ? "Confirmado" : "Finalizado"}
+          </Badge>
+
+          <Card className="mb-6 mt-3">
+            <CardContent className="space-y-3 p-3">
+              <div className="flex items-center justify-between">
+                <h2 className="font-bold">{booking.service.name}</h2>
+                <p className="text-sm font-bold">
+                  {Intl.NumberFormat("pt-BR", {
+                    style: "currency",
+                    currency: "BRL",
+                  }).format(Number(booking.service.price))}
+                </p>
+              </div>
+
+              <div className="flex items-center justify-between">
+                <h2 className="text-sm text-gray-400">Data</h2>
+                <p className="text-sm">
+                  {format(booking.date, "d 'de' MMMM", {
+                    locale: ptBR,
+                  })}
+                </p>
+              </div>
+
+              <div className="flex items-center justify-between">
+                <h2 className="text-sm text-gray-400">Horário</h2>
+                <p className="text-sm">
+                  {format(booking.date, "HH:mm", { locale: ptBR })}
+                </p>
+              </div>
+
+              <div className="flex items-center justify-between">
+                <h2 className="text-sm text-gray-400">Barbearia</h2>
+                <p className="text-sm">{barbershop.name}</p>
+              </div>
+            </CardContent>
+          </Card>
+
+          {barbershop.phones.map((phone) => (
+            <PhoneItem key={phone} phone={phone} />
+          ))}
         </div>
       </SheetContent>
     </Sheet>
