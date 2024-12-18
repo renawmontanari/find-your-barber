@@ -189,8 +189,10 @@ export function BookingItem({ booking }: BookingItemProps) {
             </SheetClose>
             {isConfirmed && (
               <Dialog>
-                <DialogTrigger>
-                  <Button variant="destructive">Cancelar reserva</Button>
+                <DialogTrigger className="w-full">
+                  <Button variant="destructive" className="w-full">
+                    Cancelar reserva
+                  </Button>
                 </DialogTrigger>
                 <DialogContent className="w-[90%]">
                   <DialogHeader>
