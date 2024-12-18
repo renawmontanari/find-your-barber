@@ -30,6 +30,7 @@ import {
 import { DialogClose } from "@radix-ui/react-dialog"
 import deleteBooking from "../_actions/delete-booking"
 import { toast } from "sonner"
+import { useState } from "react"
 
 interface BookingItemProps {
   booking: Prisma.BookingGetPayload<{
@@ -45,6 +46,7 @@ interface BookingItemProps {
 
 // Todo: receber agendamento como prop
 export function BookingItem({ booking }: BookingItemProps) {
+  const [isSheetOpen, setIsSHeetOpen] = useState(false)
   const {
     service: { barbershop },
   } = booking
@@ -52,14 +54,18 @@ export function BookingItem({ booking }: BookingItemProps) {
   const handleCancelBooking = async () => {
     try {
       await deleteBooking(booking.id)
-      toast.success("Reserva cancelada com sucessa!")
+      setIsSHeetOpen(false)
+      toast.success("Reserva cancelada com sucesso!")
     } catch (error) {
       console.log(error)
       toast.error("Erro ao cancelar reserva, Tente novamente")
     }
   }
+  const handleSheetOpenChange = (isOpen: boolean) => {
+    setIsSHeetOpen(isOpen)
+  }
   return (
-    <Sheet>
+    <Sheet open={isSheetOpen} onOpenChange={handleSheetOpenChange}>
       <SheetTrigger className="w-full">
         <Card className="min-w-[90%]">
           <CardContent className="flex justify-between p-0">
@@ -202,13 +208,15 @@ export function BookingItem({ booking }: BookingItemProps) {
                         Voltar
                       </Button>
                     </DialogClose>
-                    <Button
-                      onClick={handleCancelBooking}
-                      variant="destructive"
-                      className="w-full"
-                    >
-                      Confirmar
-                    </Button>
+                    <DialogClose asChild>
+                      <Button
+                        onClick={handleCancelBooking}
+                        variant="destructive"
+                        className="w-full"
+                      >
+                        Confirmar
+                      </Button>
+                    </DialogClose>
                   </DialogFooter>
                 </DialogContent>
               </Dialog>
