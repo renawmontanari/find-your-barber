@@ -1,3 +1,5 @@
+"use client"
+
 import { Prisma } from "@prisma/client"
 import { Avatar, AvatarImage } from "../_components/ui/avatar"
 import { Badge } from "../_components/ui/badge"
@@ -20,10 +22,14 @@ import {
   Dialog,
   DialogContent,
   DialogDescription,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "./ui/dialog"
+import { DialogClose } from "@radix-ui/react-dialog"
+import deleteBooking from "../_actions/delete-booking"
+import { toast } from "sonner"
 
 interface BookingItemProps {
   booking: Prisma.BookingGetPayload<{
@@ -43,6 +49,15 @@ export function BookingItem({ booking }: BookingItemProps) {
     service: { barbershop },
   } = booking
   const isConfirmed = isFuture(booking.date)
+  const handleCancelBooking = async () => {
+    try {
+      await deleteBooking(booking.id)
+      toast.success("Reserva cancelada com sucessa!")
+    } catch (error) {
+      console.log(error)
+      toast.error("Erro ao cancelar reserva, Tente novamente")
+    }
+  }
   return (
     <Sheet>
       <SheetTrigger className="w-full">
@@ -173,12 +188,28 @@ export function BookingItem({ booking }: BookingItemProps) {
                 </DialogTrigger>
                 <DialogContent className="w-[90%]">
                   <DialogHeader>
-                    <DialogTitle>Are you absolutely sure?</DialogTitle>
+                    <DialogTitle>
+                      Você deseja cancelar a sua reserva?
+                    </DialogTitle>
                     <DialogDescription>
-                      This action cannot be undone. This will permanently delete
-                      your account and remove your data from our servers.
+                      Ao cancelar, você perderá sua reserva e não poderá
+                      recuperá-la. Essa ação é irreversível.
                     </DialogDescription>
                   </DialogHeader>
+                  <DialogFooter className="flex flex-row gap-3">
+                    <DialogClose asChild>
+                      <Button variant="secondary" className="w-full">
+                        Voltar
+                      </Button>
+                    </DialogClose>
+                    <Button
+                      onClick={handleCancelBooking}
+                      variant="destructive"
+                      className="w-full"
+                    >
+                      Confirmar
+                    </Button>
+                  </DialogFooter>
                 </DialogContent>
               </Dialog>
             )}
