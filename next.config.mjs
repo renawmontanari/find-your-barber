@@ -5,9 +5,6 @@ const nextConfig = {
       {
         hostname: "utfs.io",
       },
-      {
-        hostname: "lh3.googleusercontent.com", // Domínio das imagens de perfil do Google
-      },
     ],
   },
 }

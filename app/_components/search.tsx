@@ -4,28 +4,25 @@ import { SearchIcon } from "lucide-react"
 import { Button } from "./ui/button"
 import { Input } from "./ui/input"
 import { useRouter } from "next/navigation"
+import { zodResolver } from "@hookform/resolvers/zod"
 
 import { z } from "zod"
 import { useForm } from "react-hook-form"
-import { zodResolver } from "@hookform/resolvers/zod"
 import { Form, FormControl, FormField, FormItem, FormMessage } from "./ui/form"
 
 const formSchema = z.object({
   title: z.string().trim().min(1, {
-    message: "O campo 'Pesquisar' é obrigatório!",
+    message: "Digite algo para buscar",
   }),
-  // Exemplo de outros inputs
-  // name: z.string().trim().min(1).max(255)
 })
 
-export default function Search() {
+const Search = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       title: "",
     },
   })
-
   const router = useRouter()
 
   const handleSubmit = (data: z.infer<typeof formSchema>) => {
@@ -41,7 +38,11 @@ export default function Search() {
           render={({ field }) => (
             <FormItem className="w-full">
               <FormControl>
-                <Input placeholder="Encontre seu barbeiro..." {...field} />
+                <Input
+                  placeholder="Faça sua busca..."
+                  {...field}
+                  className="w-full"
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -54,3 +55,5 @@ export default function Search() {
     </Form>
   )
 }
+
+export default Search

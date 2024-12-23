@@ -8,7 +8,7 @@ interface PhoneItemProps {
   phone: string
 }
 
-export function PhoneItem({ phone }: PhoneItemProps) {
+const PhoneItem = ({ phone }: PhoneItemProps) => {
   const handleCopyPhoneClick = (phone: string) => {
     navigator.clipboard.writeText(phone)
     toast.success("Telefone copiado com sucesso!")
@@ -16,12 +16,12 @@ export function PhoneItem({ phone }: PhoneItemProps) {
 
   return (
     <div className="flex justify-between" key={phone}>
-      {/* Esquerda */}
+      {/* ESQUERDA */}
       <div className="flex items-center gap-2">
         <SmartphoneIcon />
         <p className="text-sm">{phone}</p>
       </div>
-      {/* Direita */}
+      {/* DIREITA */}
       <Button
         variant="outline"
         size="sm"
@@ -32,3 +32,5 @@ export function PhoneItem({ phone }: PhoneItemProps) {
     </div>
   )
 }
+
+export default PhoneItem

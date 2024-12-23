@@ -1,22 +1,17 @@
-import Image from "next/image"
-import { Button } from "./ui/button"
-import {
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from "./ui/dialog"
 import { signIn } from "next-auth/react"
+import { Button } from "./ui/button"
+import { DialogDescription, DialogHeader, DialogTitle } from "./ui/dialog"
+import Image from "next/image"
 
-const handleLoginWithGoogleClick = () => signIn("google")
+const SignInDialog = () => {
+  const handleLoginWithGoogleClick = () => signIn("google")
 
-export default function SignInDialog() {
   return (
-    <DialogContent className="w-[90%]">
+    <>
       <DialogHeader>
-        <DialogTitle>Faça seu login na plataforma</DialogTitle>
+        <DialogTitle>Faça login na plataforma</DialogTitle>
         <DialogDescription>
-          Conecte-se usando sua conta do Google
+          Conecte-se usando sua conta do Google.
         </DialogDescription>
       </DialogHeader>
 
@@ -26,13 +21,15 @@ export default function SignInDialog() {
         onClick={handleLoginWithGoogleClick}
       >
         <Image
-          src="/assets/google.svg"
+          alt="Fazer login com o Google"
+          src="/google.svg"
           width={18}
           height={18}
-          alt="Fazer login com o Google"
         />
         Google
       </Button>
-    </DialogContent>
+    </>
   )
 }
+
+export default SignInDialog

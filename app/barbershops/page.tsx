@@ -1,5 +1,5 @@
-import { BarbershopItem } from "../_components/barbershop-item"
-import { Header } from "../_components/header"
+import BarbershopItem from "../_components/barbershop-item"
+import Header from "../_components/header"
 import Search from "../_components/search"
 import { db } from "../_lib/prisma"
 
@@ -10,9 +10,7 @@ interface BarbershopsPageProps {
   }
 }
 
-export default async function BarbershopsPage({
-  searchParams,
-}: BarbershopsPageProps) {
+const BarbershopsPage = async ({ searchParams }: BarbershopsPageProps) => {
   const barbershops = await db.barbershop.findMany({
     where: {
       OR: [
@@ -29,7 +27,7 @@ export default async function BarbershopsPage({
               services: {
                 some: {
                   name: {
-                    contains: searchParams?.service,
+                    contains: searchParams.service,
                     mode: "insensitive",
                   },
                 },
@@ -60,3 +58,5 @@ export default async function BarbershopsPage({
     </div>
   )
 }
+
+export default BarbershopsPage

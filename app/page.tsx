@@ -1,63 +1,53 @@
-import { Header } from "./_components/header"
+import Header from "./_components/header"
 import { Button } from "./_components/ui/button"
 import Image from "next/image"
 import { db } from "./_lib/prisma"
-import { BarbershopItem } from "./_components/barbershop-item"
+import BarbershopItem from "./_components/barbershop-item"
 import { quickSearchOptions } from "./_constants/search"
-import { BookingItem } from "./_components/booking-item"
+import BookingItem from "./_components/booking-item"
 import Search from "./_components/search"
 import Link from "next/link"
 import { getServerSession } from "next-auth"
-import authOptions from "./_lib/auth"
+import { authOptions } from "./_lib/auth"
 import { format } from "date-fns"
 import { ptBR } from "date-fns/locale"
+import { getConfirmedBookings } from "./_data/get-confirmed-bookings"
 
-export default async function Home() {
-  const session = await getServerSession(authOptions())
+const Home = async () => {
+  const session = await getServerSession(authOptions)
   const barbershops = await db.barbershop.findMany({})
-  const popularBarbershop = await db.barbershop.findMany({
+  const popularBarbershops = await db.barbershop.findMany({
     orderBy: {
       name: "desc",
     },
   })
-  const confirmedBookings = session?.user
-    ? await db.booking.findMany({
-        where: {
-          userId: (session.user as any).id,
-          date: {
-            gte: new Date(),
-          },
-        },
-        include: {
-          service: {
-            include: {
-              barbershop: true,
-            },
-          },
-        },
-        orderBy: {
-          date: "asc",
-        },
-      })
-    : []
+  const confirmedBookings = await getConfirmedBookings()
 
   return (
     <div>
-      {/* Header */}
+      {/* header */}
       <Header />
-
       <div className="p-5">
-        <h2 className="text-xl">
-          Olá, {session?.user ? session.user?.name : "Bem vindo"}!
+        {/* TEXTO */}
+        <h2 className="text-xl font-bold">
+          Olá, {session?.user ? session.user.name : "bem vindo"}!
         </h2>
-        <p>{format(new Date(), "EEEE, dd 'de' MMMM", { locale: ptBR })}</p>
+        <p>
+          <span className="capitalize">
+            {format(new Date(), "EEEE, dd", { locale: ptBR })}
+          </span>
+          <span>&nbsp;de&nbsp;</span>
+          <span className="capitalize">
+            {format(new Date(), "MMMM", { locale: ptBR })}
+          </span>
+        </p>
 
-        {/* Busca */}
+        {/* BUSCA */}
         <div className="mt-6">
           <Search />
         </div>
 
-        {/* Busca Rápida */}
+        {/* BUSCA RÁPIDA */}
         <div className="mt-6 flex gap-3 overflow-x-scroll [&::-webkit-scrollbar]:hidden">
           {quickSearchOptions.map((option) => (
             <Button
@@ -67,45 +57,49 @@ export default async function Home() {
               asChild
             >
               <Link href={`/barbershops?service=${option.title}`}>
-                <span className="flex items-center gap-2 pr-4">
-                  <Image
-                    src={option.imageUrl}
-                    width={16}
-                    height={16}
-                    alt={option.title}
-                  />
-                  {option.title}
-                </span>
+                <Image
+                  src={option.imageUrl}
+                  width={16}
+                  height={16}
+                  alt={option.title}
+                />
+                {option.title}
               </Link>
             </Button>
           ))}
         </div>
 
-        {/* Imagem */}
+        {/* IMAGEM */}
         <div className="relative mt-6 h-[150px] w-full">
           <Image
-            src="/assets/banner-01.png"
+            alt="Agende nos melhores com FSW Barber"
+            src="/banner-01.png"
             fill
             className="rounded-xl object-cover"
-            alt="Agende nos melhores com NSF Barber"
           />
         </div>
 
-        <h2 className="mb-3 mt-6 text-xs font-bold uppercase text-gray-400">
-          Agendamentos
-        </h2>
+        {confirmedBookings.length > 0 && (
+          <>
+            <h2 className="mb-3 mt-6 text-xs font-bold uppercase text-gray-400">
+              Agendamentos
+            </h2>
 
-        {/* Agendamento */}
-        <div className="flex gap-3 overflow-x-auto [&::-webkit-scrollbar]:hidden">
-          {confirmedBookings.map((booking) => (
-            <BookingItem key={booking.id} booking={booking} />
-          ))}
-        </div>
+            {/* AGENDAMENTO */}
+            <div className="flex gap-3 overflow-x-auto [&::-webkit-scrollbar]:hidden">
+              {confirmedBookings.map((booking) => (
+                <BookingItem
+                  key={booking.id}
+                  booking={JSON.parse(JSON.stringify(booking))}
+                />
+              ))}
+            </div>
+          </>
+        )}
 
         <h2 className="mb-3 mt-6 text-xs font-bold uppercase text-gray-400">
           Recomendados
         </h2>
-
         <div className="flex gap-4 overflow-auto [&::-webkit-scrollbar]:hidden">
           {barbershops.map((barbershop) => (
             <BarbershopItem key={barbershop.id} barbershop={barbershop} />
@@ -115,9 +109,8 @@ export default async function Home() {
         <h2 className="mb-3 mt-6 text-xs font-bold uppercase text-gray-400">
           Populares
         </h2>
-
         <div className="flex gap-4 overflow-auto [&::-webkit-scrollbar]:hidden">
-          {popularBarbershop.map((barbershop) => (
+          {popularBarbershops.map((barbershop) => (
             <BarbershopItem key={barbershop.id} barbershop={barbershop} />
           ))}
         </div>
@@ -125,3 +118,5 @@ export default async function Home() {
     </div>
   )
 }
+
+export default Home
