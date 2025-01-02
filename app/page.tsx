@@ -42,7 +42,7 @@ const Home = async () => {
           </span>
         </p>
 
-        {/* BUSCA */}
+        {/* BUSCAS */}
         <div className="mt-6">
           <Search />
         </div>
