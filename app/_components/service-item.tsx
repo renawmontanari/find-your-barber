@@ -163,7 +163,7 @@ const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
 
   return (
     <>
-      <Card>
+      <Card className="overflow-y-auto">
         <CardContent className="flex items-center gap-3 p-3">
           {/* IMAGE */}
           <div className="relative max-h-[110px] min-h-[110px] min-w-[110px] max-w-[110px]">
@@ -199,7 +199,7 @@ const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
                   Reservar
                 </Button>
 
-                <SheetContent className="px-0">
+                <SheetContent className="overflow-y-auto px-0">
                   <SheetHeader>
                     <SheetTitle>Fazer Reserva</SheetTitle>
                   </SheetHeader>

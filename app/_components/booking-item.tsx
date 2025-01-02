@@ -102,7 +102,7 @@ const BookingItem = ({ booking }: BookingItemProps) => {
           </CardContent>
         </Card>
       </SheetTrigger>
-      <SheetContent className="w-[85%]">
+      <SheetContent className="w-[85%] overflow-y-auto">
         <SheetHeader>
           <SheetTitle className="text-left">Informações da Reserva</SheetTitle>
         </SheetHeader>
