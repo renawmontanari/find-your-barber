@@ -8,7 +8,7 @@ import AuthProvider from "./_providers/auth"
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "Encontre seu barbeiro",
+  title: "Clube dos Barbeiros",
   description: "Desenvolvido com Next",
 }
 
