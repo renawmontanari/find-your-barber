@@ -28,6 +28,12 @@ const config = {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
         },
+        screens: {
+          sm: "640px",
+          md: "1024px", // Adaptação para tablets
+          lg: "1440px", // Adaptação para desktops padrão
+          xl: "2560px", // Adaptação para telas muito grandes},
+        },
         secondary: {
           DEFAULT: "hsl(var(--secondary))",
           foreground: "hsl(var(--secondary-foreground))",
