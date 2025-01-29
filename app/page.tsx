@@ -21,6 +21,7 @@ const Home = async () => {
       name: "desc",
     },
   })
+  const newBarbershops = await db.barbershop.findMany({})
   const confirmedBookings = await getConfirmedBookings()
 
   return (
@@ -96,6 +97,15 @@ const Home = async () => {
             </div>
           </>
         )}
+
+        <h2 className="mb-3 mt-6 text-xs font-bold uppercase text-gray-400">
+          Novas Barbearias
+        </h2>
+        <div className="flex gap-4 overflow-auto [&::-webkit-scrollbar]:hidden">
+          {newBarbershops.map((barbershop) => (
+            <BarbershopItem key={barbershop.id} barbershop={barbershop} />
+          ))}
+        </div>
 
         <h2 className="mb-3 mt-6 text-xs font-bold uppercase text-gray-400">
           Recomendados
