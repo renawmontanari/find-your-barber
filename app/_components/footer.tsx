@@ -7,11 +7,14 @@ const Footer = () => {
     <footer>
       <Card className="mt-5">
         <CardContent className="mt-2 px-5">
-          <div className="flex flex-row">
+          <div className="mt-5 flex flex-row justify-between">
             <div>
               <Image src="/logo.png" width={150} height={150} alt="Logo" />
+              <p className="mt-3 text-sm text-gray-500">
+                Encontre o seu melhor barbeiro na cidade
+              </p>
             </div>
-            <div>
+            <div className="text-sm text-gray-500">
               <ul>
                 <li>
                   <Link href="/about">Sobre nós</Link>
@@ -34,7 +37,7 @@ const Footer = () => {
             </div>
           </div>
 
-          <p className="text-center text-sm text-gray-400">
+          <p className="mt-7 text-center text-sm text-gray-400">
             © 2025 Copyright{" "}
             <span className="font-bold">Clube dos Barbeiros</span>
           </p>
