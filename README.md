@@ -1,44 +1,44 @@
-# Aula Zero
+# Clube dos Barbeiros ✂️  
 
-- [x] Setup do banco
-- [x] Seeding do banco (colocar dados)
-- [] Introdução ao Next.js
-- [] Tailwind e Shadcn
-- [] Git Hooks
+![clube-dos-barbeiros-demo](https://github.com/user-attachments/assets/99a792f8-ed81-49ce-abf9-728f5bd2d797)  
 
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+**Conectando clientes às melhores barbearias da cidade, com agendamento rápido e intuitivo.**  
 
-## Getting Started
+O **Clube dos Barbeiros** é uma plataforma moderna que simplifica a descoberta e o agendamento de serviços em barbearias locais. Desenvolvido com base em um design Figma, o projeto prioriza a experiência mobile-first, garantindo acessibilidade e usabilidade em qualquer dispositivo.  
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## ✨ Recursos Principais  
+- **Cadastro de Barbearias:** Barbearias podem se registrar e exibir seus serviços, horários e localização.  
+- **Agendamento Inteligente:** Clientes reservam serviços (cortes, barbas, tratamentos) com facilidade.  
+- **Autenticação Social:** Login rápido e seguro via Google Auth.  
+- **UI Moderna:** Design responsivo e componentes elegantes com Shadcn e Tailwind CSS.  
+- **Validação Robusta:** Formulários seguros e tipagem estática com Zod e TypeScript.  
+- **Gestão de Dados:** Banco de dados relacional gerenciado pelo Prisma ORM.  
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🚀 Tecnologias Utilizadas  
+| **Frontend**              | **Backend**               | **Ferramentas**          |  
+|---------------------------|---------------------------|--------------------------|  
+| Next.js (App Router)       | Prisma ORM                | Google Auth              |  
+| React.js                  | PostgreSQL                | Zod (Validação)          |  
+| TypeScript                | Rusty (API Utilities)     | Shadcn (UI Components)   |  
+| Tailwind CSS              |                           |                          |  
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+---
 
-## Learn More
+## 🌟 Por que escolher este projeto?  
+- **Mobile-First:** Experiência otimizada para dispositivos móveis.  
+- **Escalável:** Arquitetura modular e código tipado facilitam expansões futuras.  
+- **Seguro:** Autenticação social e validação rigorosa de dados.  
+- **Profissional:** Interface intuitiva para barbearias e clientes.  
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## ⚙️ Instalação  
+```bash  
+git clone https://github.com/seu-usuario/clube-dos-barbeiros.git  
+cd clube-dos-barbeiros  
+npm install  
+npm run dev  
